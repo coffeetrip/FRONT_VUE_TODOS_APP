@@ -1,17 +1,17 @@
 <template>
   <div>
-    <h1>todo</h1>
+    <li v-for="todo in todos" :key="todo.id">{{todo.title}}</li>
   </div>
 </template>
 
 <script>
 export default {
   name: "TodoList",
-  data() {
-    return {
-      todos: []
-    };
-  }
+	props: {
+    todos: {
+      type: Array
+		}
+	}
 };
 </script>
 
