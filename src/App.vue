@@ -6,7 +6,8 @@
         <a href="#" @click.prevent="logout">logout</a>
       </div>
       <div v-else>
-        <router-link to="/login">Login</router-link>
+        <router-link to="/login">Login</router-link> |
+        <router-link to="/signup">Signup</router-link>
       </div>
     </div>
     <div class="container">
