@@ -33,7 +33,10 @@ const getters = {
   },
   userId(state) {
     return state.token ? jwtDecode(state.token).user_id : null
-  }
+  },
+  loggedInUser(state) {
+    return state.token ? jwtDecode(state.token) : null;
+  },
 }
 
 

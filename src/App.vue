@@ -3,6 +3,7 @@
     <div id="nav">
       <div v-if="isAuthenticated">
         <router-link to="/">Home</router-link> |
+        <a class="p-2 text-muted" href="#">{{ userName }}</a> |
         <a href="#" @click.prevent="logout">logout</a>
       </div>
       <div v-else>
@@ -23,6 +24,11 @@ export default {
     return {
       isAuthenticated: this.$store.getters.isAuthenticated
     };
+  },
+  computed: {
+    userName() {
+      return this.$store.getters.loggedInUser.username;
+    }
   },
   methods: {
     logout() {
