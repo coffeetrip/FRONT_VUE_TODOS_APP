@@ -49,14 +49,19 @@ export default {
           Authorization: `JWT ${token}`
         }
       };
-      const requestForm = new FormData();
-      requestForm.append("user", user_id);
-      requestForm.append("title", todo.title);
-      requestForm.append("completed", !todo.completed);
+      // const requestForm = new FormData();
+      // requestForm.append("user", user_id);
+      // requestForm.append("title", todo.title);
+			// requestForm.append("completed", !todo.completed);
+			const data = {
+        user: user_id,
+        title: todo.title,
+        completed: !todo.completed
+      };
       axios
         .put(
           `http://localhost:8000/api/v1/todos/${todo.id}/`,
-          requestForm,
+          data,
           requestHeader
         )
         .then(res => {
