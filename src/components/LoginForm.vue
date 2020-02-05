@@ -46,7 +46,7 @@ export default {
 						this.loading = true;
 						// 토큰 저장
 						const { token } = response.data;
-						this.$session.start(); // vue-session때문에 생김
+						// this.$session.start(); // vue-session때문에 생김
 						this.$session.set("jwt", token); // 첫번째 매개변수 이름으로 token을 저장.
 						// 리다이렉트
 						router.push("/");
