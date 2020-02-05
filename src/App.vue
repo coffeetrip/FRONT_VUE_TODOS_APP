@@ -14,6 +14,10 @@
     <div class="container">
       <router-view/>
     </div>
+
+    <footer class="footer">
+      <div>@ MY TODO - YYE, {{ new Date().getFullYear() }}</div>
+    </footer>
   </div>
 </template>
 
@@ -45,10 +49,27 @@ export default {
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  /* -webkit-font-smoothing: antialiased; */
+  /* -moz-osx-font-smoothing: grayscale; */
   text-align: center;
   color: #2c3e50;
+}
+
+.footer {
+  padding: 1rem;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position:absolute;
+  bottom: 0;
+}
+
+.footer div {
+  color: white;
 }
 
 #nav {
