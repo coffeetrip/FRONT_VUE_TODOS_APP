@@ -1,36 +1,32 @@
 <template>
   <div>
-
-    <!-- 회원가입화면 -->
     <div class="signup-div col-6 offset-3">
 
-      <div v-if="errors.length" class="error-list alert alert-danger">
-        <!-- idx는 for문을 돌았을 때의 idx를 말한다. -->
-        <!-- 에러 목록 -->
-        <div v-for="(error, idx) in errors" :key="idx">{{error}}</div>
-      </div>
-
-
       <div class="form-group">
-        <label for="id">ID</label>
-        <input id="id" class="form-control" type="text" v-model="credential.username">
+				<label for="username">ID</label>
+        <input id="username" class="form-control" type="text" @keyup="onUsername">
+				<small v-if="error.username">{{ error.username }}</small>
       </div>
       <div class="form-group">
         <label for="password">PASSWORD</label>
-        <input id="password" class="form-control" type="password" v-model="credential.password">
+        <input id="password" class="form-control" type="password" @keyup="onPassword">
+				<small v-if="error.password">{{ error.password }}</small>
       </div>
       <div class="form-group">
-        <label for="password2">PASSWORD확인</label>
-        <input id="password2" class="form-control" type="password" v-model="credential.password2">
+				<label for="password2">PASSWORD확인</label>
+        <input id="password2" class="form-control" type="password" @keyup="onPassword2">
+				<small v-if="error.password2">{{ error.password2 }}</small>
       </div>
       <!-- <div class="form-group">
         <label for="email">email</label>
         <input id="email" class="form-control" type="email" v-model="credential.email">
+				<small v-if="error.email">{{ error.email }}</small>
       </div> -->
 			<div class="form-group">
         <label for="age">age</label>
-        <input id="age" class="form-control" type="number" v-model="credential.age" @keyup.enter="signup">
-      </div>
+				<input id="age" class="form-control" type="number" v-model="credential.age" @keyup.enter="signup" min="1" max="150">
+				<small v-if="error.age">{{ error.age }}</small>
+			</div>
       <button class="btn btn-primary" @click="signup" @keyup.enter="signup">회원가입</button>
     </div>
   </div>
@@ -50,7 +46,13 @@ export default {
         age: '',
       },
       loading: false,
-      errors: [],
+      error: {
+				username: '',
+				password: '',
+				password2: '',
+				email: '',
+				age: ''
+			}
     }
   },
   methods: {
@@ -71,14 +73,27 @@ export default {
       }
     },
     checkForm(){
-      this.errors = []
-      if (this.credential.password.length < 8) {this.errors.push("비밀번호는 8글자가 넘어야합니다.")}
-      if (!this.credential.username) {this.errors.push("아이디를 입력해주세요.")}
-      if (this.credential.password !== this.credential.password2) {this.errors.push("비밀번호가 서로 다릅니다.")}
-    //   if (!this.credential.email.includes("@")) {this.errors.push("올바르지않은 이메일 형식입니다.")}
-      if (this.errors.length === 0) {
-        return true
-      }
+			if (this.credential.username == '') {
+					this.error.username = "아이디를 입력해주세요."
+				} else if (this.credential.password !== this.credential.password2) {
+					this.error.password2 = "비밀번호가 동일하지 않습니다."
+					return false;
+				} else if (this.credential.password.length < 8) {
+					this.error.password = "비밀번호는 8글자가 넘어야합니다."
+				// } else if (!this.credential.email.includes("@")) {
+				// 	this.error.email = "올바르지않은 이메일 형식입니다."
+				} else {
+					return true;
+				}
+		},
+		onUsername(e) {
+			this.credential.username = e.target.value;
+		},
+		onPassword(e) {
+      this.credential.password = e.target.value;
+    },
+    onPassword2(e) {
+      this.credential.password2 = e.target.value;
     }
   }
 }
