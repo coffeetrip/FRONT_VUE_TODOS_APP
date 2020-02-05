@@ -9,8 +9,8 @@
 import router from "../router";
 import TodoList from "../components/TodoList";
 import TodoInput from "@/components/TodoInput"; // @는 src를 말한다.
-import jwtDecode from "jwt-decode";
 import axios from "axios";
+import { mapGetters } from "vuex";
 
 export default {
   name: 'home',
@@ -23,25 +23,23 @@ export default {
       todos: []
     };
   },
+  computed: {
+    // 직접 키-밸류 쌍으로 줄 수도 있고, =>
+    isAuthenticated() {
+      return this.$store.getters.isAuthenticated;
+    },
+    // 리턴값이 키-밸류쌍. 분해해서 줘도 가능하다.
+    ...mapGetters(["requestHeader", "userId"])
+  },
   methods: {
     checkLoggedIn() {
-      this.$session.start();
-      if (!this.$session.has("jwt")) {
+      if (!this.isAuthenticated) {
         router.push("/login");
       }
     },
     getTodos() {
-      this.$session.start();
-      const token = this.$session.get("jwt");
-      const decodedToken = jwtDecode(token);
-      const { user_id } = decodedToken;
-      const requestHeader = {
-        headers: {
-          Authorization: `JWT ${token}`
-        }
-      };
       axios
-        .get(`http://localhost:8000/api/v1/users/${user_id}/`, requestHeader)
+        .get(`http://localhost:8000/api/v1/users/${this.userId}/`, this.requestHeader)
         .then(res => {
           const { todo_set } = res.data;
           this.todos = todo_set;
@@ -49,20 +47,11 @@ export default {
         .catch(err => console.log(err));
     },
     createTodo(title) {
-      this.$session.start();
-      const token = this.$session.get("jwt");
-      const decodedToken = jwtDecode(token);
-      const { user_id } = decodedToken;
-      const requestHeader = {
-        headers: {
-          Authorization: `JWT ${token}`
-        }
-      };
       const requestForm = new FormData();
-      requestForm.append("user", user_id);
+      requestForm.append("user", this.userId);
       requestForm.append("title", title);
       axios
-        .post("http://localhost:8000/api/v1/todos/", requestForm, requestHeader)
+        .post("http://localhost:8000/api/v1/todos/", requestForm, this.requestHeader)
         .then(res => {
           const { data } = res;
           this.todos.push(data);

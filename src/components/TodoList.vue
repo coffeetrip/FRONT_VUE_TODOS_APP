@@ -11,7 +11,6 @@
 
 <script>
 import axios from "axios";
-import jwtDecode from "jwt-decode";
 
 export default {
   name: "TodoList",
@@ -20,17 +19,18 @@ export default {
       type: Array
 		}
 	},
+	computed: {
+    requestHeader() {
+      return this.$store.getters.requestHeader;
+    },
+    userId() {
+      return this.$store.getters.userId;
+    }
+  },
 	methods: {
     deleteTodo(todo) {
-      this.$session.start();
-      const token = this.$session.get("jwt");
-      const requestHeader = {
-        headers: {
-          Authorization: `JWT ${token}`
-        }
-      };
       axios
-        .delete(`http://localhost:8000/api/v1/todos/${todo.id}/`, requestHeader)
+        .delete(`http://localhost:8000/api/v1/todos/${todo.id}/`, this.requestHeader)
         .then(res => {
           console.log(res);
           const targetTodo = this.todos.find(el => el === todo);
@@ -40,21 +40,8 @@ export default {
         .catch(err => console.log(err));
     },
     updateTodo(todo) {
-      this.$session.start();
-      const token = this.$session.get("jwt");
-      const decodedToken = jwtDecode(token);
-      const { user_id } = decodedToken;
-      const requestHeader = {
-        headers: {
-          Authorization: `JWT ${token}`
-        }
-      };
-      // const requestForm = new FormData();
-      // requestForm.append("user", user_id);
-      // requestForm.append("title", todo.title);
-			// requestForm.append("completed", !todo.completed);
 			const data = {
-        user: user_id,
+        user: this.userId,
         title: todo.title,
         completed: !todo.completed
       };
@@ -62,7 +49,7 @@ export default {
         .put(
           `http://localhost:8000/api/v1/todos/${todo.id}/`,
           data,
-          requestHeader
+          this.requestHeader
         )
         .then(res => {
           console.log(res);
