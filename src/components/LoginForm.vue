@@ -19,6 +19,7 @@
 
 <script>
 import axios from "axios";
+import router from "../router";
 
 export default {
   name: "LoginForm",
@@ -37,7 +38,12 @@ export default {
       axios
         .post("http://localhost:8000/accounts/login/", this.credential)
         .then(response => {
-          console.log(response);
+					// 토큰 저장
+          const { token } = response.data;
+          this.$session.start(); // vue-session때문에 생김
+          this.$session.set("jwt", token); // 첫번째 매개변수 이름으로 token을 저장.
+          // 리다이렉트
+          router.push("/");
         })
 				.catch(error => {
 					console.log(error)
