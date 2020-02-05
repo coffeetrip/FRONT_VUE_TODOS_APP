@@ -3,7 +3,7 @@
 		<div v-if="loading" class="spinner-border" role="status">
 			<span class="sr-only">Loading...</span>
 		</div>
-		<div class="login-div">
+		<div v-else class="login-div col-6 offset-3">
 			<div class="form-group">
 				<label for="id">ID</label>
 				<input class="form-control" type="text" id="id" v-model="credential.username" />
