@@ -62,7 +62,6 @@ export default {
         axios.post('http://localhost:8000/accounts/signup/', this.credential)
         .then(res => {
 					const { token } = res.data;
-					console.log(token)
 					this.$store.dispatch("setTokenAction", token);
           router.push('/login')
         })
@@ -79,7 +78,9 @@ export default {
 					this.error.password2 = "비밀번호가 동일하지 않습니다."
 					return false;
 				} else if (this.credential.password.length < 8) {
-					this.error.password = "비밀번호는 8글자가 넘어야합니다."
+          this.error.password = "비밀번호는 8글자가 넘어야합니다."
+        } else if (this.credential.age < 0 || this.credential.age > 151 || this.credential.age == '') {
+          this.error.age = "나이는 0 ~ 150 사이로 입력해주세요."
 				// } else if (!this.credential.email.includes("@")) {
 				// 	this.error.email = "올바르지않은 이메일 형식입니다."
 				} else {
