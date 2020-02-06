@@ -45,7 +45,7 @@ export default {
 					// 토큰 저장
 					const { token } = response.data;
 					// this.$session.start(); // vue-session때문에 생김
-					this.$store.dispatch("login", token); 
+					this.$store.dispatch("login", token);  // vuex token에 저장
 					// 리다이렉트
 					router.push("/");
 				})

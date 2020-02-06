@@ -6,26 +6,29 @@ import Signup from '../views/Signup.vue';
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    name: 'home',
-    component: Home
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: Login
-  },
-  {
-    path: '/signup',
-    name: 'signup',
-    component: Signup,
-  }
-]
-
-const router = new VueRouter({
-  routes
+export default new VueRouter({
+  mode: "history",
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: Home
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/signup',
+      name: 'signup',
+      component: Signup,
+    }
+  ]
 })
 
-export default router
+// const router = new VueRouter({
+//   routes
+// })
+
+// export default router
