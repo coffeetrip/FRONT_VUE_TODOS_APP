@@ -13,13 +13,20 @@ const mutations = {
 const actions = {
   login(options, token) {
     options.commit('setToken', token)
+    localStorage.setItem("access_token", token)
   },
   logout(options) {
     options.commit('setToken', null)
+    localStorage.removeItem("access_token")
+  },
+  getTokenInLocalStorage(options) {
+      let token = localStorage.getItem("access_token")
+      if (token != null) {
+        options.commit('setToken', token)
+      }
   }
 }
 
-// computed와 비슷?
 const getters = {
   isAuthenticated(state) {
     return state.token ? true : false
