@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue';
+import MyPage from '../views/MyPage.vue';
 
 Vue.use(VueRouter)
 
@@ -23,7 +24,12 @@ export default new VueRouter({
       path: '/signup',
       name: 'signup',
       component: Signup,
-    }
+    },
+    {
+      path: '/mypage',
+      name: 'mypage',
+      component: MyPage,
+    },
   ]
 })
 

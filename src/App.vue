@@ -3,7 +3,7 @@
     <div id="nav">
       <div v-if="isAuthenticated">
         <router-link to="/">Home</router-link> |
-        <a class="p-2 text-muted" href="#">{{ userName }}</a> |
+        <router-link to="/mypage"> {{ userName }} Page</router-link> |
         <a href="#" @click.prevent="logout">logout</a>
       </div>
       <div v-else>
